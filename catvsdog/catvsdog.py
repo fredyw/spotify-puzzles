@@ -104,13 +104,14 @@ def catvsdog():
         num_votes = int(lines[2])
         for j in xrange(0, num_votes):
             line = raw_input()
-            votes.append(line)
+            # make a duplicate vote a unique element
+            votes.append(line + ' ' + str(j))
         graph = Graph()
         for vote1 in votes:
-            (u1, v1) = vote1.split()
+            (u1, v1, id) = vote1.split()
             if u1[0] != 'C': continue
             for vote2 in votes:
-                (u2, v2) = vote2.split()
+                (u2, v2, id) = vote2.split()
                 if u1 == v2 or u2 == v1:
                     graph.add(Edge(vote1, vote2, 1))
                     graph.add(Edge('start',vote1, 1))
