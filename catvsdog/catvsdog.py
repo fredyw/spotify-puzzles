@@ -47,9 +47,13 @@ class Graph(object):
         self.edges = {}
     
     def add(self, edge):
+        # this is an undirected graph
         if not edge.from_vertex in self.edges:
             self.edges[edge.from_vertex] = set()
         self.edges[edge.from_vertex].add(edge)
+        if not edge.to_vertex in self.edges:
+            self.edges[edge.to_vertex] = set()
+        self.edges[edge.to_vertex].add(edge)
     
     def adjacent(self, vertex):
         if not vertex in self.edges:
@@ -109,10 +113,8 @@ def catvsdog():
                 (u2, v2) = vote2.split()
                 if u1 == v2 or u2 == v1:
                     graph.add(Edge(vote1, vote2, 1))
-        for edges in graph.edges.values():
-            for edge in edges:
-                graph.add(Edge('start', edge.from_vertex, 1))
-                graph.add(Edge(edge.to_vertex, 'end', 1))
+                    graph.add(Edge('start',vote1, 1))
+                    graph.add(Edge(vote2, 'end', 1))
         mf = MaximumFlow(graph, 'start', 'end')
         print num_votes - mf.max_flow
         
